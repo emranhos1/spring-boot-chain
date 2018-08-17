@@ -12,6 +12,6 @@ cd spring-boot-chain-launch/;mvn clean install;cd ..;
 
 # Run Instruction
 
-##Go to spring-boot-chain Deractory and Execute the flowing commend
+## Go to spring-boot-chain Deractory and Execute the flowing commend
 cd spring-boot-chain-launch/target/;java -jar spring-boot-chain-launch-0.0.1-SNAPSHOT.jar
 
