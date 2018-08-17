@@ -27,7 +27,7 @@ public class Person {
 	@Column(name="person_phone")
 	private String phoneNo;
 	@Column(name="person_status")
-	private int status;
+	private String status;
 	
 	public int getId() {
 		return id;
@@ -65,12 +65,13 @@ public class Person {
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
 	}
-	public int getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
+	
 	
 	
 	

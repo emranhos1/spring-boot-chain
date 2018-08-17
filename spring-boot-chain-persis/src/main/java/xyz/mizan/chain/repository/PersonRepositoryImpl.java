@@ -35,12 +35,18 @@ public class PersonRepositoryImpl implements PersonRepository {
 		int responce = 0;
         Session session = hibernateSessionUtil.getSessionFactory(factory).openSession();
         session.beginTransaction();
-        List phoneCheck = session.createQuery("from Person where phoneNo = 'person.getPhoneNo()'").list();
-        if(!phoneCheck.isEmpty()) {
+        List empCheck = session.createQuery("from Person").list();
+        if(empCheck.isEmpty()) {
         	responce = (Integer) session.save(person);
-        	session.getTransaction().commit();
+    		session.getTransaction().commit();
         }else {
-        	responce = -1;
+        	List phoneCheck = session.createQuery("from Person where phoneNo = '"+person.getPhoneNo()+"'").list();
+        	if(phoneCheck.isEmpty()) {
+        		responce = (Integer) session.save(person);
+        		session.getTransaction().commit();
+        	}else {
+        		responce = -1;
+        	}
         }
         session.close();
         return responce;
@@ -103,20 +109,40 @@ public class PersonRepositoryImpl implements PersonRepository {
 	@Override
 	public List<Person> searchPerson(Person person){
 		List<Person> personList;
+		
 		String personNo = "";
-		if(person.getId() == 0){
+		String personName = person.getName();
+		String personAddress = person.getAddress();
+		String personMaritalStatus = person.getMaritalStatus();
+		String personGender = person.getGender();
+		String personPhoneNo = person.getPhoneNo();
+		if(!(person.getId() == 0)){
 			personNo = String.valueOf(person.getId());
+		}
+		if(null == personName) {
+			personName = "";
+		}
+		if(null == personAddress) {
+			personAddress = "";
+		}
+		if(null == personMaritalStatus) {
+			personMaritalStatus = "";
+		}
+		if(null == personGender){
+			personGender = "";
+		}
+		if(null == personPhoneNo) {
+			personPhoneNo = "";
 		}
 		Session session = hibernateSessionUtil.getSessionFactory(factory).openSession();
 		session.beginTransaction();
 		personList = session.createQuery(
 				"from Person where id like '%"+personNo+"%'"
-				+ " and name like '%"+person.getName()+"%'"
-				/*+ " and address like '%"+person.getAddress()+"%'"
-				+ " and maritalStatus like '%"+person.getMaritalStatus()+"%'"
-				+ " and gender like '%"+person.getGender()+"%'"
-				+ " and phoneNo like '%"+person.getPhoneNo()+"%'"
-				+ " and status like '%"+person.getStatus()+"%'"*/
+				+ " and name like '%"+personName+"%'"
+				+ " and address like '%"+personAddress+"%'"
+				+ " and maritalStatus like '%"+personMaritalStatus+"%'"
+				+ " and gender like '%"+personGender+"%'"
+				+ " and phoneNo like '%"+personPhoneNo+"%'"
 				).list();
 		session.close();
 		return personList;

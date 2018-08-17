@@ -119,7 +119,6 @@ public class PersonController {
 	@RequestMapping(value = "search", method = RequestMethod.GET)
     public Map<String, Object> searchPerson(Person person) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		System.out.println(person.getId());
 		List<Person> query = personServiceImpl.searchPerson(person);
 		if(query.isEmpty()) {
 			response.put("success", false);
